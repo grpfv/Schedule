@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -14,8 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +44,32 @@ public class MainActivity extends AppCompatActivity {
                 showScheduleDialog();
             }
         });
+
+        // Add space between items in RecyclerView
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing); // Define spacing dimension in resources
+        recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+
+
+        // Get references to TextView elements
+        TextView dateTextView = findViewById(R.id.dateText);
+        TextView dayTextView = findViewById(R.id.dayText);
+        TextView timeTextView = findViewById(R.id.timeText);
+
+        // Get current date, day, and time
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        String currentDate = dateFormat.format(calendar.getTime());
+        String currentDay = dayFormat.format(calendar.getTime());
+        String currentTime = timeFormat.format(calendar.getTime());
+
+        // Set the text of TextView elements with current date, day, and time
+        dateTextView.setText(currentDate);
+        dayTextView.setText(currentDay);
+        timeTextView.setText(currentTime);
+
+
 
         // Initialize day buttons
         sunButton = findViewById(R.id.sun_btn);
